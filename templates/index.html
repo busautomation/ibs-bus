@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Automation Dashboard</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600&display=swap");
+* {
+    box-sizing: border-box;
+    font-family: "Rajdhani", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1360px;
+    margin: 0 auto;
+}
+
+
+/* header styling */
+
+header {
+    width: 100%;
+    border-bottom: 1px solid #0037fb;
+}
+
+header .container {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0037fb;
+}
+
+.bus-num {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0037fb;
+}
+
+.profile-icon {
+    width: 24px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: #0037fb;
+}
+
+.signout-btn {
+    width: 24px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid #0037fb;
+}
+
+.profile {
+    display: flex;
+    grid-gap: 10px;
+    align-items: center;
+}
+
+
+/* main styling */
+
+main {
+    padding: 20px 0;
+}
+
+main .container {
+    min-height: 540px;
+    height: 100%;
+}
+
+.row-1,
+.row-2 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    /* background-color: gainsboro; */
+    width: 100%;
+    min-height: 260px;
+}
+
+.col-1-1,
+.col-1-2,
+.col-1-3,
+.col-2-1,
+.col-2-2,
+.col-2-3 {
+    width: 32%;
+    height: 260px;
+    /* background-color: grey; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card {
+    width: 100%;
+    height: 45%;
+    border: 1px solid #0037fb;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px #6987ff;
+    color: #0037fb;
+}
+
+.fuel-card,
+.theft-card,
+.air-card,
+.fire-card {
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 50px;
+}
+
+.bus-status,
+.camera-feed,
+.map {
+    height: 260px;
+    width: 100%;
+    border: 1px solid #0037fb;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px #6987ff;
+}
+
+.camera-feed {
+    background-color: #dce3ff;
+}
+
+.icon {
+    height: 80%;
+    aspect-ratio: 1/1;
+    border: 2px solid #0037fb;
+    border-radius: 50%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+}
+
+.icon img {
+    height: 60%;
+    aspect-ratio: 1/1;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+p {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.bus-status {
+    color: #0037fb;
+    padding: 20px;
+}
+
+.route-card,
+.color-card {
+    padding: 20px;
+}
+
+input {
+    width: 75%;
+    height: 30px;
+    border: 1px solid #0037fb;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+button {
+    height: 30px;
+    border: 1px solid #0037fb;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #0037fb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.color-pickers {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#rgb-1,
+#rgb-2,
+#rgb-3,
+#rgb-4 {
+    width: 50px;
+    height: 50px;
+    border: none;
+}
+
+label {
+    font-weight: 600;
+}
+
+.color-box {
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .container {
+        width: 90%;
+        max-width: 1360px;
+        margin: 0 auto;
+    }
+    .row-1,
+    .row-2 {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 20px;
+    }
+    .col-1-1,
+    .col-1-2,
+    .col-1-3,
+    .col-2-1,
+    .col-2-2,
+    .col-2-3 {
+        width: 100%;
+    }
+    .col-1-1 {
+        order: 1;
+    }
+}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Rashail Automation</div>
+            <div class="profile">
+                <div class="profile-icon"></div>
+                <p class="bus-num">MP 09 NA 9563</p>
+                <div class="signout-btn"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row-1">
+                <div class="col-1-1">
+                    <div class="fuel-card card">
+                        <div class="icon">
+                            <img src="{% static '/Dashboard/drop.svg' %}" alt="Theft Alert">
+                        </div>
+                        <div class="info">
+                            <div class="title">Fuel Meter</div>
+                            <p>80% Fill</p>
+                            <p>60 lit. approx.</p>
+                        </div>
+                    </div>
+                    <div class="theft-card card">
+                        <div class="icon">
+                            <img src="{% static '/Dashboard/alert.svg' %}" alt="Theft Alert">
+                        </div>
+                        <div class="info">
+                            <div class="title">Theft Alert</div>
+                            <p>No Damage</p>
+                            <p>Safe</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1-2">
+                    <div class="camera-feed">
+                    </div>
+                </div>
+                <div class="col-1-3">
+                    <div class="map">
+                        <iframe src="https://maps.google.com/maps?q=22.686678160973706, 75.85923212623261&z=15&output=embed" width="100%" height="100%" frameborder="0" style="border-radius:4px"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="row-2">
+                <div class="col-2-1">
+                    <div class="air-card card">
+                        <div class="icon">
+                            <img src="{% static '/Dashboard/thermometer.svg' %}" alt="Theft Alert">
+                        </div>
+                        <div class="info">
+                            <div class="title">Air Condi.</div>
+                            <p>20°c-22°c</p>
+                            <p>Status:ON</p>
+                        </div>
+                    </div>
+                    <div class="fire-card card">
+                        <div class="icon">
+                            <img src="{% static '/Dashboard/fire.svg' %}" alt="Theft Alert">
+                        </div>
+                        <div class="info">
+                            <div class="title">Fire Hydrant</div>
+                            <p>80% Fill</p>
+                            <p>5 kg Approx.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2-2">
+                    <div class="bus-status">
+                        <div class="title">Bus Status</div>
+                        <p>Driver's Name: Rampal yadav</p>
+                        <p>Conductor's Name: Arjun kapoor</p>
+                        <p>Departure Time: 07:00 PM</p>
+                        <p>Arrival Time: 06:00 AM</p>
+                        <p>Last Service: 01/09/2021</p>
+                        <p>PUC: 01/02/2021</p>
+                        <p>Insurance: 01/02/2021</p>
+                    </div>
+                </div>
+                <div class="col-2-3">
+                    <div class="route-card card">
+
+                    </div>
+                    <div class="color-card card">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // function for converting rgb to hex
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+// function for converting hex to rgb
+function hexTorgb(hex) {
+    return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
+}
+
+
+const colorCard = document.querySelector('.color-card')
+
+// fetching the data of RGB API
+fetch('https://ibsbus.herokuapp.com/rgbapi/rgb/')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        colorCard.innerHTML = `
+                     <div class="color-pickers">
+                        <div class="color-box">
+                            <label for="rgb-1">RGB-1</label>
+                            <br>
+                            <input type="color" id="rgb-1" value="${rgbToHex(data[0].red, data[0].green, data[0].blue)}">
+                        </div>
+                        <div class="color-box">
+                            <label for="rgb-2">RGB-2</label>
+                            <br>
+                            <input type="color" id="rgb-2" value="${rgbToHex(data[1].red, data[1].green, data[1].blue)}">
+                        </div>
+                        <div class="color-box">
+                            <label for="rgb-3">RGB-3</label>
+                            <br>
+                            <input type="color" id="rgb-3" value="${rgbToHex(data[2].red, data[2].green, data[2].blue)}">
+                        </div>
+                        <div class="color-box">
+                            <label for="rgb-4">RGB-4</label>
+                            <br>
+                            <input type="color" id="rgb-4" value="${rgbToHex(data[3].red, data[3].green, data[3].blue)}">
+                        </div>
+                    </div>
+                `;
+        const RGB1 = document.querySelector('#rgb-1')
+        const RGB2 = document.querySelector('#rgb-2')
+        const RGB3 = document.querySelector('#rgb-3')
+        const RGB4 = document.querySelector('#rgb-4')
+
+        RGB1.addEventListener('change', function() {
+            console.log("1 changed")
+            const current = data[0]
+            const update = {
+                id: current.id,
+                device_name: current.device_name,
+                red: hexTorgb(RGB1.value)[0],
+                green: hexTorgb(RGB1.value)[1],
+                blue: hexTorgb(RGB1.value)[2]
+            }
+
+            let url = `https://ibsbus.herokuapp.com/rgbapi/rgb/1/`
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(update),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data)
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+        })
+
+        RGB2.addEventListener('change', function() {
+            const current = data[1]
+            const update = {
+                id: current.id,
+                device_name: current.device_name,
+                red: hexTorgb(RGB2.value)[0],
+                green: hexTorgb(RGB2.value)[1],
+                blue: hexTorgb(RGB2.value)[2]
+            }
+
+            let url = `https://ibsbus.herokuapp.com/rgbapi/rgb/2/`
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(update),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data)
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+        })
+
+        RGB3.addEventListener('change', function() {
+            const current = data[2]
+            const update = {
+                id: current.id,
+                device_name: current.device_name,
+                red: hexTorgb(RGB3.value)[0],
+                green: hexTorgb(RGB3.value)[1],
+                blue: hexTorgb(RGB3.value)[2]
+            }
+
+            let url = `https://ibsbus.herokuapp.com/rgbapi/rgb/3/`
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(update),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data)
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+        })
+
+        RGB4.addEventListener('change', function() {
+            const current = data[3]
+            const update = {
+                id: current.id,
+                device_name: current.device_name,
+                red: hexTorgb(RGB4.value)[0],
+                green: hexTorgb(RGB4.value)[1],
+                blue: hexTorgb(RGB4.value)[2]
+            }
+
+            let url = `https://ibsbus.herokuapp.com/rgbapi/rgb/4/`
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(update),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data)
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+        })
+
+    })
+
+const routeCard = document.querySelector('.route-card')
+
+fetch('https://ibsbus.herokuapp.com/p10api/1/')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        routeCard.innerHTML = `
+                    <div class="title">Bus Route</div>
+                    <div class="route-input">
+                        <input id="bus-route" type="text" placeholder="${data.device_message}">
+                        <button class="route-submit-btn">Submit</button>
+                    </div>
+                `;
+        const routeSubmitBtn = document.querySelector('.route-submit-btn')
+        const busRoute = document.querySelector('#bus-route')
+
+        routeSubmitBtn.addEventListener('click', function() {
+            const current = data
+            const update = {
+                id: current.id,
+                device_name: current.device_name,
+                device_message: busRoute.value,
+                device_brightness: 255,
+                device_scrolling_speed: 50,
+            }
+
+            let url = `https://ibsbus.herokuapp.com/p10api/1/`
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(update),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data)
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            console.log(busRoute.value)
+        })
+
+    })
+    </script>
+</body>
+
+</html>
